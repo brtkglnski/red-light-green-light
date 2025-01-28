@@ -25,7 +25,7 @@ func _on_timer_timeout():
 func _physics_process(delta):
 	if game_running:
 		while watcher.is_light_green():
-			if Input.is_action_pressed("up"):
+			if Input.is_action_pressed("up") or Input.is_action_pressed("left") or Input.is_action_pressed("right"):
 				game_over()
 				break
 			else:
