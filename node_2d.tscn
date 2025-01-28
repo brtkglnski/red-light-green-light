@@ -1,0 +1,121 @@
+[gd_scene load_steps=15 format=3 uid="uid://t4sluwjnvvl0"]
+
+[ext_resource type="Texture2D" uid="uid://ck621q8xqj2rq" path="res://background.png" id="1_5rs10"]
+[ext_resource type="Script" path="res://main.gd" id="1_dyqee"]
+[ext_resource type="Texture2D" uid="uid://gfqlso7mlr1k" path="res://wall.png" id="2_2fesi"]
+[ext_resource type="Texture2D" uid="uid://bvykkaqngg7yc" path="res://doll.png" id="3_cnte3"]
+[ext_resource type="Texture2D" uid="uid://c4grpfv5a22nq" path="res://dollback.png" id="4_mdi6g"]
+[ext_resource type="Texture2D" uid="uid://bly32c66wh80y" path="res://playerframe1.png" id="5_aqpne"]
+[ext_resource type="Script" path="res://movement.gd" id="5_mir7j"]
+[ext_resource type="Texture2D" uid="uid://b6bv0y5nwuo4s" path="res://playerframe2.png" id="6_4y3rl"]
+[ext_resource type="Script" path="res://watcher.gd" id="6_ikw28"]
+[ext_resource type="Texture2D" uid="uid://cebjyt251idfb" path="res://playerframe3.png" id="7_jsrvo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m58uf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_mdi6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cnte3")
+}],
+"loop": true,
+"name": &"state",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pv1mt"]
+size = Vector2(1229, 191)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_au8wl"]
+size = Vector2(76, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ghev0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_aqpne")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4y3rl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_aqpne")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jsrvo")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_dyqee")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.00002, 73.2501)
+scale = Vector2(0.910937, 0.736806)
+texture = ExtResource("1_5rs10")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(4.50001, -252.5)
+scale = Vector2(0.913281, 0.629167)
+texture = ExtResource("2_2fesi")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Watcher" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9.53674e-07, -215)
+scale = Vector2(0.683333, 0.683333)
+sprite_frames = SubResource("SpriteFrames_m58uf")
+animation = &"state"
+script = ExtResource("6_ikw28")
+
+[node name="Goal" type="Area2D" parent="."]
+position = Vector2(0, -177)
+collision_layer = 3
+collision_mask = 3
+priority = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
+position = Vector2(0, -28)
+shape = SubResource("RectangleShape2D_pv1mt")
+debug_color = Color(0.869094, 0.340487, 0.239262, 0.42)
+
+[node name="line" type="Line2D" parent="Goal/CollisionShape2D"]
+position = Vector2(0, 268.9)
+scale = Vector2(1, 1.4)
+points = PackedVector2Array(-616, -126, 624, -126)
+width = 5.0
+default_color = Color(0.436376, 0, 0.113447, 1)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(180, 255)
+collision_layer = 3
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("5_mir7j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, 66)
+shape = SubResource("RectangleShape2D_au8wl")
+debug_color = Color(9.62615e-07, 0.597958, 0.711609, 0.42)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player/CollisionShape2D"]
+position = Vector2(0, -66)
+scale = Vector2(0.558333, 0.558333)
+sprite_frames = SubResource("SpriteFrames_ghev0")
+animation = &"walk"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="state_changed" from="Watcher" to="." method="_on_watcher_state_changed"]
+[connection signal="area_entered" from="Goal" to="." method="_on_goal_area_entered"]
+[connection signal="body_entered" from="Goal" to="." method="_on_goal_area_entered"]
