@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://t4sluwjnvvl0"]
+[gd_scene load_steps=20 format=3 uid="uid://t4sluwjnvvl0"]
 
 [ext_resource type="Texture2D" uid="uid://ck621q8xqj2rq" path="res://background.png" id="1_5rs10"]
 [ext_resource type="Script" path="res://main.gd" id="1_dyqee"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b6bv0y5nwuo4s" path="res://playerframe2.png" id="6_4y3rl"]
 [ext_resource type="Script" path="res://watcher.gd" id="6_ikw28"]
 [ext_resource type="Texture2D" uid="uid://cebjyt251idfb" path="res://playerframe3.png" id="7_jsrvo"]
+[ext_resource type="AudioStream" uid="uid://2671det4ec7b" path="res://gunshot.mp3" id="7_r5aam"]
 [ext_resource type="Texture2D" uid="uid://bkbvmbrxec4d8" path="res://playerdeath1.png" id="8_qtcsk"]
 [ext_resource type="Texture2D" uid="uid://bo8etrdgkab20" path="res://playerdeath2.png" id="9_hbn58"]
 [ext_resource type="AudioStream" uid="uid://dbgals74sm2c2" path="res://soundEffect.mp3" id="11_7t4fl"]
@@ -100,6 +101,9 @@ script = ExtResource("6_ikw28")
 [node name="waitSoundEffect" type="AudioStreamPlayer" parent="Watcher"]
 stream = ExtResource("11_7t4fl")
 autoplay = true
+
+[node name="gunshotSoundEffect" type="AudioStreamPlayer" parent="Watcher"]
+stream = ExtResource("7_r5aam")
 
 [node name="Goal" type="Area2D" parent="."]
 position = Vector2(0, -183)

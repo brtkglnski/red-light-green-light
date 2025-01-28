@@ -3,6 +3,7 @@ extends Node2D
 # References to other nodes
 @onready var player = $Player
 @onready var watcher = $Watcher
+@onready var gunshotSoundEffect = $Watcher/gunshotSoundEffect
 @onready var timer = $Timer
 @onready var goal = $Goal
 @onready var successScreen = $SuccessScreen
@@ -36,6 +37,7 @@ func game_over():
 	game_running = false
 	player.set_physics_process(false)
 	player.stop_animation()
+	gunshotSoundEffect.play()
 	player.play_animation("death") 
 	eliminatedScreen.visible = true
 	timer.stop()
